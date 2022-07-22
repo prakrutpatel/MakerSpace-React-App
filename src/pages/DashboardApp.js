@@ -36,6 +36,7 @@ let model_config = {
 };
 
 var moved = 0;
+var added = 0;
 
 
 
@@ -80,6 +81,7 @@ export default function DashboardApp() {
 
   const newEl = (newValue) => {
     setAnchorEl(null);
+    added = 1;
     if (newValue === 'Rectangle'){
       var uni_name = 'Rectangle ' + rect;
       model3.models[uni_name] = makerjs.model.move(new makerjs.models.RoundRectangle(100, 50, 0), [0,0]);
@@ -90,6 +92,10 @@ export default function DashboardApp() {
       model_config[uni_name]['height'] = 50;
       model_config[uni_name]['round'] = 0;
       model_config[uni_name]['rotate'] = 0;
+      setWidth(100);
+      setHeight(50);
+      setRound(0);
+      setRotate(0);
       setshowCircle(false);
       setshowPolygon(false);
       setshowRect(true);
@@ -102,6 +108,7 @@ export default function DashboardApp() {
       setcircle(prevcount => prevcount+1);
       model_config[uni_name] = {}
       model_config[uni_name]['radius'] = 50;
+      setRadius(50);
       setshowCircle(true);
       setshowPolygon(false);
       setshowRect(false);
@@ -116,6 +123,9 @@ export default function DashboardApp() {
       model_config[uni_name]['nos'] = 3;
       model_config[uni_name]['radius'] = 20;
       model_config[uni_name]['rotate'] = 0;
+      setnumber(3);
+      setRadius(20);
+      setRotate(0);
       setshowPolygon(true);
       setshowCircle(false);
       setshowRect(false);
@@ -131,6 +141,10 @@ export default function DashboardApp() {
       model_config[uni_name]['hole_radius'] = 20;
       model_config[uni_name]['nob'] = 10;
       model_config[uni_name]['rotate'] = 0;
+      setRadius(100);
+      setInnerRadius(20);
+      setnumber(10);
+      setRotate(0);
       setshowBolt(true);
       setshowCircle(false);
       setshowPolygon(false);
@@ -147,6 +161,10 @@ export default function DashboardApp() {
       model_config[uni_name]['inner_radius'] = 10;
       model_config[uni_name]['skip'] = 2;
       model_config[uni_name]['rotate'] = 0;
+      setnumber(3);
+      setRadius(50);
+      setInnerRadius(10);
+      setRotate(0);
       setshowStar(true);
       setshowBolt(false);
       setshowCircle(false);
@@ -158,6 +176,10 @@ export default function DashboardApp() {
   const newcurrvalue = (name) => {
     setcurr(name);
     if (name.includes('Rectangle')){
+      setWidth(model_config[name]['width']);
+      setHeight(model_config[name]['height']);
+      setRound(model_config[name]['round']);
+      setRotate(model_config[name]['rotate']);
       setshowCircle(false);
       setshowPolygon(false);
       setshowRect(true);
@@ -170,6 +192,7 @@ export default function DashboardApp() {
       setshowRect(false);
       setshowBolt(false);
       setshowStar(false);
+      setRadius(model_config[name]['radius']);
     } 
     if (name.includes('Polygon')){
       setshowPolygon(true);
@@ -177,6 +200,9 @@ export default function DashboardApp() {
       setshowRect(false);
       setshowBolt(false);
       setshowStar(false);
+      setnumber(model_config[name]['nos']);
+      setRadius(model_config[name]['radius']);
+      setRotate(model_config[name]['rotate']);
     } 
     if (name.includes('Bolt Circle')){
       setshowBolt(true);
@@ -184,6 +210,10 @@ export default function DashboardApp() {
       setshowPolygon(false);
       setshowRect(false);
       setshowStar(false);
+      setRadius(model_config[name]['radius']);
+      setInnerRadius(model_config[name]['hole_radius']);
+      setnumber(model_config[name]['nob']);
+      setRotate(model_config[name]['rotate']);
     }
     if (name.includes('Star')){
       setshowStar(true);
@@ -191,6 +221,10 @@ export default function DashboardApp() {
       setshowCircle(false);
       setshowPolygon(false);
       setshowRect(false);
+      setnumber(model_config[name]['nos']);
+      setRadius(model_config[name]['radius']);
+      setInnerRadius(model_config[name]['inner_radius']);
+      setRotate(model_config[name]['rotate']);
     }
     if (name === ''){
       setshowStar(false);
@@ -205,7 +239,12 @@ export default function DashboardApp() {
     delete model3["models"][name];
     delete model_config[name];
     if (prev_index === -1) {
-      newcurrvalue('');
+      if (Object.keys(model3.models).length > 0) {
+        newcurrvalue(Object.keys(model3.models)[Object.keys(model3.models).length-1]);
+      }
+      else {
+        newcurrvalue('');
+      }
     } else {
       newcurrvalue(Object.keys(model3.models)[prev_index]);
     }
@@ -250,7 +289,7 @@ export default function DashboardApp() {
 
   const handleMove = (stick) => {
     moved = 1;
-    model3["models"][curr].origin = [stick.x * 5, stick.y * 3];
+    model3["models"][curr].origin = [stick.x * 6, stick.y * 4];
     setManualTilt([stick.x, stick.y]);
   };
 
@@ -372,7 +411,7 @@ export default function DashboardApp() {
 
   return (
     <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
-      <Box sx={{ width: 270 }}>
+      <Box sx={{ width: 300 }}>
         <Scrollbar
           sx={{
             height: 1,
@@ -446,7 +485,7 @@ export default function DashboardApp() {
           </Box>
           <Box  sx={{ pb: 1, mx: "auto" }}>
           <div>
-      <Button onClick={refreshPage}>Start Again?</Button>
+      <Button onClick={refreshPage}>Restart Session?</Button>
     </div>
           </Box>
         </Scrollbar>
@@ -690,8 +729,8 @@ export default function DashboardApp() {
               </Card>
             </Grid>
             {
-              (curr === '') ?
-            <Grid item xs={3} sm={3} md={3} lg={3} xl={3} sx={{ mb: 7}}>
+              (curr === '' && added === 0) ?
+            <Grid item xs={3} sm={3} md={3} lg={3} xl={3} sx={{ mb: 10}}>
               <Card>
                 <Box sx={{ p: 2 }} dir="ltr">
                   <h3>Hint: Try adding an element</h3>
@@ -726,10 +765,7 @@ export default function DashboardApp() {
                     Known Bugs (under progress)
                   </h3>
                   <h4>
-                  1. Sliders don't adapt value based on current element config
-                  </h4>
-                  <h4>
-                  2. Responsiveness problems when changing zoom of the screen
+                  1. Responsiveness problems when changing zoom of the screen
                   </h4>
                 </Box>
               </Card>
