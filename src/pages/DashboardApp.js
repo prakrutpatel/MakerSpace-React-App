@@ -58,7 +58,6 @@ export default function DashboardApp() {
   const [showCircle, setshowCircle] = React.useState(false);
   const [showBolt, setshowBolt] = React.useState(false);
   const [showStar, setshowStar] = React.useState(false);
-  const [showSnowflake, setshowSnowflake] = React.useState(false);
   const [curr, setcurr] = React.useState('');
   const [rect, setrect] = React.useState(1);
   const [circle, setcircle] = React.useState(1);
@@ -290,7 +289,7 @@ export default function DashboardApp() {
   const handleMove = (stick) => {
     moved = 1;
     model3["models"][curr].origin = [stick.x * 6, stick.y * 4];
-    setManualTilt([stick.x, stick.y]);
+    setManualTilt([stick.x * 6, stick.y * 4]);
   };
 
   const polygon0 = (_event, newValue) => {
@@ -742,7 +741,7 @@ export default function DashboardApp() {
             <Grid item xs={2} sm={2} md={2} lg={2} xl={2}>
               <Card>
                 <Box sx={{py:1, mx: 5}} dir="ltr">
-                <Joystick size={100} sticky={false} throttle={70} baseColor="grey" stickColor="black" move={handleMove}></Joystick>
+                <Joystick size={100} sticky={true} throttle={70} baseColor="grey" stickColor="black" move={handleMove}></Joystick>
                 </Box>
               </Card>
             </Grid> : null}

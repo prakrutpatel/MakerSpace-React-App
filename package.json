@@ -1,9 +1,10 @@
 {
-  "name": "@minimal/material-kit-react",
-  "author": "minimals.cc",
+  "name": "@mobile-makerspace-app",
+  "author": "Prakrut Patel",
   "licence": "MIT",
   "version": "1.5.0",
   "private": false,
+  "homepage": "https://prakrutpatel.github.io",
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
@@ -13,7 +14,9 @@
     "lint:fix": "eslint --fix --ext .js,.jsx ./src",
     "clear-all": "rm -rf build node_modules",
     "re-start": "rm -rf build node_modules && yarn install && yarn start",
-    "re-build": "rm -rf build node_modules && yarn install && yarn build"
+    "re-build": "rm -rf build node_modules && yarn install && yarn build",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": [
@@ -39,6 +42,7 @@
     ]
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@emotion/react": "^11.9.3",
     "@emotion/styled": "^11.9.3",
     "@faker-js/faker": "^7.3.0",
@@ -52,6 +56,7 @@
     "change-case": "^4.1.2",
     "date-fns": "^2.28.0",
     "file-saver": "^2.0.5",
+    "gh-pages": "^4.0.0",
     "history": "^5.3.0",
     "lodash": "^4.17.21",
     "makerjs": "^0.17.1",
@@ -66,6 +71,7 @@
     "react-joystick-component": "^4.0.1",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.1",
+    "save-dev": "^0.0.1-security",
     "simplebar": "^5.3.8",
     "simplebar-react": "^2.4.1",
     "web-vitals": "^2.1.4",
