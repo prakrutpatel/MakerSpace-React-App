@@ -26,9 +26,10 @@ const AccountStyle = styled('div')(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: theme.palette.grey[500_12],
 }));
-
+var pathData = "M224 1.7L125.16 1.7 M125.16 1.7L125.16 124 M125.16 124L101.7 124 M101.7 124L101.7 241.33 M101.7 241.33L125.16 241.33 M125.16 241.33L125.16 358.67 M125.16 358.67L101.7 358.67 M101.7 358.67L101.7 476 M101.7 476L125.16 476 M125.16 476L125.16 598.3 M125.16 598.3L224 598.3 M224 598.3L224 574.84 M224 574.84L341.33 574.84 M341.33 574.84L341.33 598.3 M341.33 598.3L458.67 598.3 M458.67 598.3L458.67 574.84 M458.67 574.84L576 574.84 M576 574.84L576 598.3 M576 598.3L674.84 598.3 M674.84 598.3L674.84 476 M674.84 476L698.3 476 M698.3 476L698.3 358.67 M698.3 358.67L674.84 358.67 M674.84 358.67L674.84 241.33 M674.84 241.33L698.3 241.33 M698.3 241.33L698.3 124 M698.3 124L674.84 124 M674.84 124L674.84 1.7 M674.84 1.7L576 1.7 M576 1.7L576 25.16 M576 25.16L458.67 25.16 M458.67 25.16L458.67 1.7 M458.67 1.7L341.33 1.7 M341.33 1.7L341.33 25.16 M341.33 25.16L224 25.16 M224 25.16L224 1.7";
 let model3 = {
   models: {
+    "Path 1": makerjs.model.center(makerjs.model.scale(makerjs.importer.fromSVGPathData(pathData), 0.7))
   }
 };
 
@@ -83,7 +84,7 @@ export default function DashboardApp() {
     added = 1;
     if (newValue === 'Rectangle'){
       var uni_name = 'Rectangle ' + rect;
-      model3.models[uni_name] = makerjs.model.move(new makerjs.models.RoundRectangle(100, 50, 0), [0,0]);
+      model3.models[uni_name] = makerjs.model.center(makerjs.model.move(new makerjs.models.RoundRectangle(100, 50, 0), [0,0]));
       setcurr(uni_name);
       setrect(prevcount => prevcount+1);
       model_config[uni_name] = {}
@@ -234,24 +235,24 @@ export default function DashboardApp() {
     }
   };
   const delitem = (name) => {
-    var prev_index = Object.keys(model3.models).indexOf(name) - 1;
+    var prev_index = Object.keys(model3.models).slice(1).indexOf(name) - 1;
     delete model3["models"][name];
     delete model_config[name];
     if (prev_index === -1) {
-      if (Object.keys(model3.models).length > 0) {
-        newcurrvalue(Object.keys(model3.models)[Object.keys(model3.models).length-1]);
+      if (Object.keys(model3.models).slice(1).length > 0) {
+        newcurrvalue(Object.keys(model3.models).slice(1)[Object.keys(model3.models).slice(1).length-1]);
       }
       else {
         newcurrvalue('');
       }
     } else {
-      newcurrvalue(Object.keys(model3.models)[prev_index]);
+      newcurrvalue(Object.keys(model3.models).slice(1)[prev_index]);
     }
   };
 
   const BluePrint = () => {
     return (
-      <Blueprint model={model3} options={{showGrid: true,}}>
+      <Blueprint model={model3} options={{showGrid: true, fitOnScreen: true,}}>
         <h4>
           Design
         </h4>
@@ -262,7 +263,7 @@ export default function DashboardApp() {
     return (
       <div>
       {
-      Object.keys(model3.models).map((name) => (
+      Object.keys(model3.models).slice(1).map((name) => (
         <Box sx={{px: 4, pb:1, mx: "auto" }} key={name}>
           <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Button variant="outlined" onClick={() => { newcurrvalue(name); }}>
@@ -288,8 +289,8 @@ export default function DashboardApp() {
 
   const handleMove = (stick) => {
     moved = 1;
-    model3["models"][curr].origin = [stick.x * 6, stick.y * 4];
-    setManualTilt([stick.x * 6, stick.y * 4]);
+    model3["models"][curr].origin = [stick.x * 4, stick.y * 4];
+    setManualTilt([stick.x * 4, stick.y * 4]);
   };
 
   const polygon0 = (_event, newValue) => {
