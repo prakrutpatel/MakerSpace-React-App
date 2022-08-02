@@ -1,11 +1,9 @@
 // @mui
 import * as React from 'react';
 import Slider from '@mui/material/Slider';
-import Stack from '@mui/material/Stack';
 import * as makerjs from "makerjs";
+import Heart from './Heart'
 import Blueprint from "react-blueprint-svg";
-import { useTheme } from '@mui/material/styles';
-import FileSaver from 'file-saver'
 import { Joystick } from 'react-joystick-component';
 import { styled } from '@mui/material/styles';
 import Menu from '@mui/material/Menu';
@@ -26,10 +24,11 @@ const AccountStyle = styled('div')(({ theme }) => ({
   borderRadius: Number(theme.shape.borderRadius) * 1.5,
   backgroundColor: theme.palette.grey[500_12],
 }));
-var pathData = "M224 1.7L125.16 1.7 M125.16 1.7L125.16 124 M125.16 124L101.7 124 M101.7 124L101.7 241.33 M101.7 241.33L125.16 241.33 M125.16 241.33L125.16 358.67 M125.16 358.67L101.7 358.67 M101.7 358.67L101.7 476 M101.7 476L125.16 476 M125.16 476L125.16 598.3 M125.16 598.3L224 598.3 M224 598.3L224 574.84 M224 574.84L341.33 574.84 M341.33 574.84L341.33 598.3 M341.33 598.3L458.67 598.3 M458.67 598.3L458.67 574.84 M458.67 574.84L576 574.84 M576 574.84L576 598.3 M576 598.3L674.84 598.3 M674.84 598.3L674.84 476 M674.84 476L698.3 476 M698.3 476L698.3 358.67 M698.3 358.67L674.84 358.67 M674.84 358.67L674.84 241.33 M674.84 241.33L698.3 241.33 M698.3 241.33L698.3 124 M698.3 124L674.84 124 M674.84 124L674.84 1.7 M674.84 1.7L576 1.7 M576 1.7L576 25.16 M576 25.16L458.67 25.16 M458.67 25.16L458.67 1.7 M458.67 1.7L341.33 1.7 M341.33 1.7L341.33 25.16 M341.33 25.16L224 25.16 M224 25.16L224 1.7";
+var pathData = "M 14.676 0 L 2.8152 0 L 2.8152 14.676 L 0 14.676 L 0 28.7556 L 2.8152 28.7556 L 2.8152 42.8364 L 0 42.8364 L 0 56.916 L 2.8152 56.916 L 2.8152 71.592 L 14.676 71.592 L 14.676 68.7768 L 28.7556 68.7768 L 28.7556 71.592 L 42.8364 71.592 L 42.8364 68.7768 L 56.916 68.7768 L 56.916 71.592 L 68.7768 71.592 L 68.7768 56.916 L 71.592 56.916 L 71.592 42.8364 L 68.7768 42.8364 L 68.7768 28.7556 L 71.592 28.7556 L 71.592 14.676 L 68.7768 14.676 L 68.7768 0 L 56.916 0 L 56.916 2.8152 L 42.8364 2.8152 L 42.8364 0 L 28.7556 0 L 28.7556 2.8152 L 14.676 2.8152 L 14.676 0 Z"
+
 let model3 = {
   models: {
-    "Path 1": makerjs.model.center(makerjs.model.scale(makerjs.importer.fromSVGPathData(pathData), 0.7))
+    "Path 1": makerjs.model.center(makerjs.importer.fromSVGPathData(pathData)),
   }
 };
 
@@ -53,20 +52,21 @@ export default function DashboardApp() {
   const [Height, setHeight] = React.useState(0);
   const [Round, setRound] = React.useState(0);
   const [InnerRadius, setInnerRadius] = React.useState(0);
+  const [Angle, setAngle] = React.useState(0);
   const [showPolygon, setshowPolygon] = React.useState(false);
   const [showRect, setshowRect] = React.useState(false);
   const [ManualTilt, setManualTilt] = React.useState([0,0]);
   const [showCircle, setshowCircle] = React.useState(false);
   const [showBolt, setshowBolt] = React.useState(false);
   const [showStar, setshowStar] = React.useState(false);
+  const [showHeart, setshowHeart] = React.useState(false);
   const [curr, setcurr] = React.useState('');
   const [rect, setrect] = React.useState(1);
   const [circle, setcircle] = React.useState(1);
   const [polygon, setpolygon] = React.useState(1);
+  const [heart, setheart] = React.useState(1);
   const [bc, setbc] = React.useState(1);
   const [star, setstar] = React.useState(1);
-  const [rr, setrr] = React.useState(1);
-
   
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -84,16 +84,16 @@ export default function DashboardApp() {
     added = 1;
     if (newValue === 'Rectangle'){
       var uni_name = 'Rectangle ' + rect;
-      model3.models[uni_name] = makerjs.model.center(makerjs.model.move(new makerjs.models.RoundRectangle(100, 50, 0), [0,0]));
+      model3.models[uni_name] = makerjs.model.center(makerjs.model.move(new makerjs.models.RoundRectangle(40, 20, 0), [0,0]));
       setcurr(uni_name);
       setrect(prevcount => prevcount+1);
       model_config[uni_name] = {}
-      model_config[uni_name]['width'] = 100;
-      model_config[uni_name]['height'] = 50;
+      model_config[uni_name]['width'] = 40;
+      model_config[uni_name]['height'] = 20;
       model_config[uni_name]['round'] = 0;
       model_config[uni_name]['rotate'] = 0;
-      setWidth(100);
-      setHeight(50);
+      setWidth(40);
+      setHeight(20);
       setRound(0);
       setRotate(0);
       setshowCircle(false);
@@ -101,48 +101,51 @@ export default function DashboardApp() {
       setshowRect(true);
       setshowBolt(false);
       setshowStar(false);
+      setshowHeart(false);
     } else if (newValue === 'Circle' ) {
       var uni_name = 'Circle ' + circle;
-      model3.models[uni_name] = makerjs.model.move(new makerjs.models.Ellipse(50, 50), [0,0]);
+      model3.models[uni_name] = makerjs.model.move(new makerjs.models.Ellipse(10, 10), [0,0]);
       setcurr(uni_name);
       setcircle(prevcount => prevcount+1);
       model_config[uni_name] = {}
-      model_config[uni_name]['radius'] = 50;
-      setRadius(50);
+      model_config[uni_name]['radius'] = 10;
+      setRadius(10);
       setshowCircle(true);
       setshowPolygon(false);
       setshowRect(false);
       setshowBolt(false);
       setshowStar(false);
+      setshowHeart(false);
     } else if (newValue === 'Polygon' ) {
       var uni_name = 'Polygon ' + polygon;
-      model3.models[uni_name] = makerjs.model.move(new makerjs.models.Polygon(3, 20, 0), [0,0]);
+      model3.models[uni_name] = makerjs.model.move(new makerjs.models.Polygon(3, 10, 0), [0,0]);
       setcurr(uni_name);
       setpolygon(prevcount => prevcount+1);
       model_config[uni_name] = {}
       model_config[uni_name]['nos'] = 3;
-      model_config[uni_name]['radius'] = 20;
+      model_config[uni_name]['radius'] = 10;
       model_config[uni_name]['rotate'] = 0;
       setnumber(3);
-      setRadius(20);
+      setRadius(10);
       setRotate(0);
       setshowPolygon(true);
       setshowCircle(false);
       setshowRect(false);
       setshowBolt(false);
       setshowStar(false);
+      setshowHeart(false);
     } else if (newValue === 'Bolt Circle') {
       var uni_name = 'Bolt Circle ' + bc;
-      model3.models[uni_name] = makerjs.model.move(new makerjs.models.BoltCircle(100, 4, 10, 0), [0,0]);
+      model3.models[uni_name] = makerjs.model.move(new makerjs.models.BoltCircle(10, 3, 10, 0), [0,0]);
       setcurr(uni_name);
       setbc(prevcount => prevcount+1);
       model_config[uni_name] = {}
-      model_config[uni_name]['radius'] = 100;
-      model_config[uni_name]['hole_radius'] = 20;
+      model_config[uni_name]['radius'] = 10;
+      model_config[uni_name]['hole_radius'] = 3;
       model_config[uni_name]['nob'] = 10;
       model_config[uni_name]['rotate'] = 0;
-      setRadius(100);
-      setInnerRadius(20);
+      setRadius(10);
+      setInnerRadius(3);
       setnumber(10);
       setRotate(0);
       setshowBolt(true);
@@ -150,22 +153,42 @@ export default function DashboardApp() {
       setshowPolygon(false);
       setshowRect(false);
       setshowStar(false);
+      setshowHeart(false);
     } else if (newValue === 'Star'){
       var uni_name = 'Star ' + star;
-      model3.models[uni_name] = makerjs.model.move(new makerjs.models.Star(3, 50, 10, 2), [0,0]);
+      model3.models[uni_name] = makerjs.model.move(new makerjs.models.Star(3, 20, 4, 2), [0,0]);
       setcurr(uni_name);
       setstar(prevcount => prevcount+1);
       model_config[uni_name] = {}
       model_config[uni_name]['nos'] = 3;
-      model_config[uni_name]['radius'] = 50;
-      model_config[uni_name]['inner_radius'] = 10;
+      model_config[uni_name]['radius'] = 20;
+      model_config[uni_name]['inner_radius'] = 4;
       model_config[uni_name]['skip'] = 2;
       model_config[uni_name]['rotate'] = 0;
       setnumber(3);
-      setRadius(50);
-      setInnerRadius(10);
+      setRadius(20);
+      setInnerRadius(4);
       setRotate(0);
       setshowStar(true);
+      setshowBolt(false);
+      setshowCircle(false);
+      setshowPolygon(false);
+      setshowRect(false);
+      setshowHeart(false);
+    } else if (newValue === 'Heart'){
+      var uni_name = 'Heart ' + heart;
+      model3.models[uni_name] = makerjs.model.move(new Heart(10, 90), [0,0]);
+      setcurr(uni_name);
+      setheart(prevcount => prevcount+1);
+      model_config[uni_name] = {}
+      model_config[uni_name]['radius'] = 10;
+      model_config[uni_name]['angle'] = 90;
+      model_config[uni_name]['rotate'] = 0;
+      setRadius(10);
+      setAngle(90);
+      setRotate(0);
+      setshowHeart(true);
+      setshowStar(false);
       setshowBolt(false);
       setshowCircle(false);
       setshowPolygon(false);
@@ -185,6 +208,7 @@ export default function DashboardApp() {
       setshowRect(true);
       setshowBolt(false);
       setshowStar(false);
+      setshowHeart(false);
     } 
     if (name.includes('Circle')){
       setshowCircle(true);
@@ -192,6 +216,7 @@ export default function DashboardApp() {
       setshowRect(false);
       setshowBolt(false);
       setshowStar(false);
+      setshowHeart(false);
       setRadius(model_config[name]['radius']);
     } 
     if (name.includes('Polygon')){
@@ -200,6 +225,7 @@ export default function DashboardApp() {
       setshowRect(false);
       setshowBolt(false);
       setshowStar(false);
+      setshowHeart(false);
       setnumber(model_config[name]['nos']);
       setRadius(model_config[name]['radius']);
       setRotate(model_config[name]['rotate']);
@@ -210,6 +236,7 @@ export default function DashboardApp() {
       setshowPolygon(false);
       setshowRect(false);
       setshowStar(false);
+      setshowHeart(false);
       setRadius(model_config[name]['radius']);
       setInnerRadius(model_config[name]['hole_radius']);
       setnumber(model_config[name]['nob']);
@@ -221,9 +248,21 @@ export default function DashboardApp() {
       setshowCircle(false);
       setshowPolygon(false);
       setshowRect(false);
+      setshowHeart(false);
       setnumber(model_config[name]['nos']);
       setRadius(model_config[name]['radius']);
       setInnerRadius(model_config[name]['inner_radius']);
+      setRotate(model_config[name]['rotate']);
+    }
+    if (name.includes('Heart')){
+      setshowStar(false);
+      setshowBolt(false);
+      setshowCircle(false);
+      setshowPolygon(false);
+      setshowRect(false);
+      setshowHeart(true);
+      setRadius(model_config[name]['radius']);
+      setAngle(model_config[name]['angle']);
       setRotate(model_config[name]['rotate']);
     }
     if (name === ''){
@@ -232,6 +271,7 @@ export default function DashboardApp() {
       setshowCircle(false);
       setshowPolygon(false);
       setshowRect(false);
+      setshowHeart(false);
     }
   };
   const delitem = (name) => {
@@ -252,7 +292,7 @@ export default function DashboardApp() {
 
   const BluePrint = () => {
     return (
-      <Blueprint model={model3} options={{showGrid: true, fitOnScreen: true,}}>
+      <Blueprint model={model3} options={{showGrid: true, fitOnScreen: true, unitString: 'mm'}}>
         <h4>
           Design
         </h4>
@@ -264,7 +304,7 @@ export default function DashboardApp() {
       <div>
       {
       Object.keys(model3.models).slice(1).map((name) => (
-        <Box sx={{px: 4, pb:1, mx: "auto" }} key={name}>
+        <Box sx={{ pb:1, mx: "auto" }} key={name}>
           <ButtonGroup variant="outlined" aria-label="outlined button group">
           <Button variant="outlined" onClick={() => { newcurrvalue(name); }}>
             {name}
@@ -282,15 +322,10 @@ export default function DashboardApp() {
     )
 };
 
-  const filename = "output.svg"
-  const file = makerjs.exporter.toSVG(model3);
-
-  const theme = useTheme();
-
   const handleMove = (stick) => {
     moved = 1;
-    model3["models"][curr].origin = [stick.x * 4, stick.y * 4];
-    setManualTilt([stick.x * 4, stick.y * 4]);
+    model3["models"][curr].origin = [stick.x, stick.y];
+    setManualTilt([stick.x, stick.y]);
   };
 
   const polygon0 = (_event, newValue) => {
@@ -392,39 +427,69 @@ export default function DashboardApp() {
     model3['models'][curr] = makerjs.model.move(makerjs.model.rotate(new makerjs.models.Star(model_config[curr]['nos'], model_config[curr]['radius'], model_config[curr]['inner_radius'],model_config[curr]['skip'] ), newValue),[model3['models'][curr].origin[0], model3['models'][curr].origin[1]] );
   };
 
+  const heart0 = (_event, newValue) => {
+    setRadius(newValue);
+    model_config[curr]['radius'] = newValue;
+    model3['models'][curr] = makerjs.model.move(makerjs.model.rotate(new Heart(newValue, model_config[curr]['angle']), model_config[curr]['rotate']),[model3['models'][curr].origin[0], model3['models'][curr].origin[1]] );
+  };
+
+  const heart1 = (_event, newValue) => {
+    setAngle(newValue);
+    model_config[curr]['angle'] = newValue;
+    model3['models'][curr] = makerjs.model.move(makerjs.model.rotate(new Heart(model_config[curr]['radius'], newValue), model_config[curr]['rotate']),[model3['models'][curr].origin[0], model3['models'][curr].origin[1]] );
+  };
+
+  const heart2 = (_event, newValue) => {
+    setRotate(newValue);
+    model_config[curr]['rotate'] = newValue;
+    model3['models'][curr] = makerjs.model.move(makerjs.model.rotate(new Heart(model_config[curr]['radius'], model_config[curr]['angle']), newValue),[model3['models'][curr].origin[0], model3['models'][curr].origin[1]] );
+  };
+
   const saveSvg = (model) => {
     const options = {
       accuracy: 0.000001,
       units: makerjs.unitType.Millimeter,
       strokeWidth: '0.25mm',
     }
+    console.log(makerjs.exporter.toSVGPathData(model3));
     const output = makerjs.exporter.toSVG(model, options)
     const blob = new Blob([output], { type: 'text/plain;charset=utf-8' })
-    FileSaver.saveAs(blob, 'outline.svg')
+    //FileSaver.saveAs(blob, 'outline.svg')
   }
 
   const refreshPage = () => {
     window.location.reload(false);
   };
 
+  console.log(window);
+
 
 
   return (
-    <Stack direction="row" divider={<Divider orientation="vertical" flexItem />}>
-      <Box sx={{ width: 300 }}>
+    <Box sx={{
+      display: 'grid',
+      gridTemplateColumns: 'repeat(19, 1fr)',
+      gap: 0,
+      gridTemplateRows: 'auto',
+      gridTemplateAreas: `
+    "sidebar divider main main main main main main main main main main main main main main main main main"
+    `,
+    }}>
+      <Box sx={{ width: window.innerWidth/6, height: window.innerHeight, gridArea: 'sidebar'}}>
         <Scrollbar
           sx={{
+            width: 1,
             height: 1,
-            '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column' },
+            '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column'},
           }}
         >
-          <Box sx={{ px: 2.5, py: 3, display: 'inline-flex' }}>
+          <Box sx={{ px: 2.5, py: 3}}>
             <Logo />
           </Box>
 
-          <Box sx={{ mb: 5, mx: 2.5 }}>
+          <Box sx={{ mb: 5, mr: 2}}>
             <AccountStyle>
-              <Box sx={{ ml: 2, mx: "auto" }}>
+              <Box sx={{mx: "auto" }}>
                 <Typography variant="subtitle4" sx={{ color: 'text.primary', justifyContent: 'center' }}>
                   Active Elements
                 </Typography>
@@ -436,7 +501,7 @@ export default function DashboardApp() {
 
           <Box sx={{ flexGrow: 1 }} />
 
-          <Box sx={{ pb: 1, mt: 1, mx: "auto" }}>
+          <Box sx={{ pb: 1, mt: 1, mx: "auto"}}>
             <Button
               id="basic-button"
               aria-controls={open ? 'basic-menu' : undefined}
@@ -481,6 +546,11 @@ export default function DashboardApp() {
                   Star
                 </h4>
               </MenuItem>
+              <MenuItem onClick={() => { newEl('Heart'); }} sx={{ fontSize: 15, height: 40 }}>
+                <h4 style={{ color: blue[700] }}>
+                  Heart
+                </h4>
+              </MenuItem>
             </Menu>
           </Box>
           <Box  sx={{ pb: 1, mx: "auto" }}>
@@ -490,8 +560,9 @@ export default function DashboardApp() {
           </Box>
         </Scrollbar>
       </Box>
-
-      <Page title="Home Page">
+      <Divider variant="middle" orientation="vertical" flexItem sx={{width: 'fit-content', gridArea: 'divider'}}/>
+      
+      <Page title="Home Page" sx={{width: window.innerWidth-window.innerWidth/4, height: window.innerHeight, gridArea: 'main'}}>
         <Container maxWidth="xl">
           <Typography variant="h2" sx={{ mb: 5 }}>
             Hi, Welcome back
@@ -503,7 +574,7 @@ export default function DashboardApp() {
             <Grid item xs={8} md={8} lg={8} sm={8} xl={8} sx={{ height: 500, width: 800 }}>
               <Card>
                 <Box sx={{ px: 3, pb: 1 }} dir="ltr">
-                  <BluePrint />
+                <BluePrint />
                   <Button className="ui primary button" sx={{ mt: 1 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Download SVG</Button>
                 </Box>
               </Card>
@@ -539,8 +610,8 @@ export default function DashboardApp() {
                         value={Radius}
                         size="small"
                         valueLabelDisplay="auto"
-                        min={1}
-                        max={150}
+                        min={3}
+                        max={32}
                       />
                     </Box> : null
                   }
@@ -565,8 +636,8 @@ export default function DashboardApp() {
                         value={Radius}
                         size="small"
                         valueLabelDisplay="auto"
-                        min={1}
-                        max={500}
+                        min={3}
+                        max={30}
                       />
                     </Box> : null
                   }
@@ -578,8 +649,8 @@ export default function DashboardApp() {
                         value={Width}
                         size="small"
                         valueLabelDisplay="auto"
-                        min={5}
-                        max={200}
+                        min={3}
+                        max={65}
                       />
                     </Box> : null
                   }
@@ -591,8 +662,8 @@ export default function DashboardApp() {
                         value={Height}
                         size="small"
                         valueLabelDisplay="auto"
-                        min={5}
-                        max={200}
+                        min={3}
+                        max={65}
                       />
                     </Box> : null
                   }
@@ -631,7 +702,7 @@ export default function DashboardApp() {
                         size="small"
                         valueLabelDisplay="auto"
                         min={1}
-                        max={150}
+                        max={30}
                       />
                     </Box> : null
                   }
@@ -644,7 +715,7 @@ export default function DashboardApp() {
                         size="small"
                         valueLabelDisplay="auto"
                         min={1}
-                        max={50}
+                        max={15}
                       />
                     </Box> : null
                   }
@@ -696,7 +767,7 @@ export default function DashboardApp() {
                         size="small"
                         valueLabelDisplay="auto"
                         min={5}
-                        max={200}
+                        max={40}
                       />
                     </Box> : null
                   }
@@ -708,8 +779,8 @@ export default function DashboardApp() {
                         value={InnerRadius}
                         size="small"
                         valueLabelDisplay="auto"
-                        min={1}
-                        max={50}
+                        min={2}
+                        max={30}
                       />
                     </Box> : null
                   }
@@ -726,11 +797,50 @@ export default function DashboardApp() {
                       />
                     </Box> : null
                   }
+                  {
+                    showHeart ? <Box className='radius' sx={{ p: 2,width: 290 }}>
+                      <h3>Radius</h3>
+                      <Slider
+                        onChange={heart0}
+                        value={Radius}
+                        size="small"
+                        valueLabelDisplay="auto"
+                        min={5}
+                        max={20}
+                      />
+                    </Box> : null
+                  }
+                  {
+                    showHeart ? <Box className='angle' sx={{ p: 2,width: 290 }}>
+                      <h3>Angle</h3>
+                      <Slider
+                        onChange={heart1}
+                        value={Angle}
+                        size="small"
+                        valueLabelDisplay="auto"
+                        min={40}
+                        max={120}
+                      />
+                    </Box> : null
+                  }
+                  {
+                    showHeart ? <Box className='rotate' sx={{ p: 2,width: 290 }}>
+                      <h3>Rotate</h3>
+                      <Slider
+                        onChange={heart2}
+                        value={Rotate}
+                        size="small"
+                        valueLabelDisplay="auto"
+                        min={0}
+                        max={360}
+                      />
+                    </Box> : null
+                  }
               </Card>
             </Grid>
             {
               (curr === '' && added === 0) ?
-            <Grid item xs={3} sm={3} md={3} lg={3} xl={3} sx={{ mb: 10}}>
+            <Grid item xs={4} sm={4} md={4} lg={4} xl={4} sx={{ mb: 10}}>
               <Card>
                 <Box sx={{ p: 2 }} dir="ltr">
                   <h3>Hint: Try adding an element</h3>
@@ -774,6 +884,6 @@ export default function DashboardApp() {
           </Grid>
         </Container>
       </Page>
-    </Stack>
+    </Box>
   );
 }
