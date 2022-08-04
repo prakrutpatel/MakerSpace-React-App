@@ -9,18 +9,18 @@ import DashboardApp from './pages/DashboardApp';
 export default function Router() {
   return useRoutes([
     {
-      path: '/dashboard',
+      path: '/',
       element: <DashboardLayout />,
       children: [
-        { path: 'app', element: <DashboardApp /> },
+        { path: '', element: <DashboardApp /> },
       ],
     },
     {
       path: '/',
       children: [
-        { path: '/', element: <Navigate to="/dashboard/app" /> },
+        { path: '/', element: <Navigate to="/" /> },
       ],
     },
-    { path: '*', element: <Navigate to="/dashboard/app" replace /> },
+    { path: '*', element: <Navigate to="/" replace /> },
   ]);
 }
