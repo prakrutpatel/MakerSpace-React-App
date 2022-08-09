@@ -64,7 +64,7 @@ export default function Login() {
 
   const mdUp = useResponsive('up', 'md');
 
-  const client = mqtt.connect('wss://10.0.2.208:8081');
+  const client = mqtt.connect('ws://10.0.2.208:1883');
   client.subscribe("Eckerd");
 
   client.on("message", function (topic, payload) {
