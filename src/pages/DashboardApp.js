@@ -11,6 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import { Grid, Container, Typography, Card, Box, Button, Divider, ButtonGroup } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
+import mqtt from "precompiled-mqtt";
 // components
 import Logo from '../components/Logo';
 import Scrollbar from '../components/Scrollbar';
@@ -38,7 +39,7 @@ let model_config = {
 var moved = 0;
 var added = 0;
 
-
+const client = mqtt.connect('mqtt://10.0.2.208:8081');
 
 
 // ----------------------------------------------------------------------
@@ -450,7 +451,8 @@ export default function DashboardApp() {
       accuracy: 0.000001,
       units: makerjs.unitType.Millimeter,
       strokeWidth: '0.25mm',
-    }
+    };
+    client.publish("Eckerd", makerjs.exporter.toSVGPathData(model3).toString());
     console.log(makerjs.exporter.toSVGPathData(model3));
     const output = makerjs.exporter.toSVG(model, options)
     const blob = new Blob([output], { type: 'text/plain;charset=utf-8' })
@@ -460,8 +462,6 @@ export default function DashboardApp() {
   const refreshPage = () => {
     window.location.reload(false);
   };
-
-  console.log(window);
 
 
 
@@ -877,6 +877,7 @@ export default function DashboardApp() {
                   <h4>
                   1. Responsiveness problems when changing zoom of the screen
                   </h4>
+                  
                 </Box>
               </Card>
             </Grid> : null}

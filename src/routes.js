@@ -3,6 +3,7 @@ import { Navigate, useRoutes } from 'react-router-dom';
 import DashboardLayout from './layouts/dashboard';
 //
 import DashboardApp from './pages/DashboardApp';
+import Login from './pages/Login';
 
 // ----------------------------------------------------------------------
 
@@ -12,15 +13,9 @@ export default function Router() {
       path: '/',
       element: <DashboardLayout />,
       children: [
-        { path: '', element: <DashboardApp /> },
+        { path: '/', element: <DashboardApp /> },
+        { path: '/login', element: <Login /> },
       ],
-    },
-    {
-      path: '/',
-      children: [
-        { path: '/', element: <Navigate to="/" /> },
-      ],
-    },
-    { path: '*', element: <Navigate to="/" replace /> },
+    }
   ]);
 }
