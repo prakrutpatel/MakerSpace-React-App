@@ -39,7 +39,7 @@ let model_config = {
 var moved = 0;
 var added = 0;
 
-const client = mqtt.connect('mqtt://10.0.2.208:8081');
+const client = mqtt.connect('wss://10.0.2.208:8081');
 
 
 // ----------------------------------------------------------------------
