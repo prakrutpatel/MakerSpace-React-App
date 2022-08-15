@@ -575,7 +575,7 @@ export default function DashboardApp() {
               <Card>
                 <Box sx={{ px: 3, pb: 1 }} dir="ltr">
                 <BluePrint />
-                  <Button className="ui primary button" sx={{ mt: 1 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Download SVG</Button>
+                  <Button className="ui primary button" sx={{ mt: 1 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Submit</Button>
                 </Box>
               </Card>
             </Grid>
@@ -862,22 +862,6 @@ export default function DashboardApp() {
               <Card>
                 <Box sx={{ p: 2 }} dir="ltr">
                   <h3>Hint: Try moving the joystick</h3>
-                </Box>
-              </Card>
-            </Grid> : null}
-
-            {
-              (curr !== '' && moved === 1) ?
-            <Grid item xs={6} sm={6} md={6} lg={6} xl={6}>
-              <Card>
-                <Box sx={{ p: 2 }} dir="ltr">
-                  <h3>
-                    Known Bugs (under progress)
-                  </h3>
-                  <h4>
-                  1. Responsiveness problems when changing zoom of the screen
-                  </h4>
-                  
                 </Box>
               </Card>
             </Grid> : null}

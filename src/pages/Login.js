@@ -64,16 +64,16 @@ export default function Login() {
 
   const mdUp = useResponsive('up', 'md');
 
-  const client = mqtt.connect('wss://10.0.2.208:1883');
+  const client = mqtt.connect('mqtt://test.mosquitto.org:8081');
   client.subscribe("Eckerd");
 
   client.on("message", function (topic, payload) {
     setlist([...list,payload.toString()]);
+
   });
 
-  const listItems = list.map((list1) =>
-  <h1>{list1}</h1>
-);
+  client.publish("Eckerd", "hello world!");
+  <li>{list}</li>
 
   return (
     <Protect sha512='EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF'
@@ -88,7 +88,7 @@ export default function Login() {
         {mdUp && (
           <SectionStyle>
             <Typography variant="h3" sx={{ px: 5, mt: 10, mb: 5 }}>
-             Backend
+             Backend Page
             </Typography>
             <img src="/static/illustrations/illustration_login.png" alt="login" />
           </SectionStyle>
@@ -97,11 +97,11 @@ export default function Login() {
         <Container maxWidth="sm">
           <ContentStyle>
             <Typography variant="h4" gutterBottom>
-              Sign in to Minimal
+              Models submitted
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Enter your details below.</Typography>
-            <ul>{listItems}</ul>
+            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Select models to export.</Typography>
+            <listItems/>
           </ContentStyle>
         </Container>
         
