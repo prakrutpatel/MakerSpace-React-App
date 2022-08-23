@@ -11,7 +11,10 @@ import MenuItem from '@mui/material/MenuItem';
 import { Grid, Container, Typography, Card, Box, Button, Divider, ButtonGroup } from '@mui/material';
 import { blue } from '@mui/material/colors';
 import DeleteIcon from '@mui/icons-material/Delete';
-import mqtt from "precompiled-mqtt";
+import TextField from '@mui/material/TextField';
+import { initializeApp } from 'firebase/app';
+import { getDatabase, ref, set } from "firebase/database";
+import {Link, useNavigate} from 'react-router-dom';
 // components
 import Logo from '../components/Logo';
 import Scrollbar from '../components/Scrollbar';
@@ -39,13 +42,27 @@ let model_config = {
 var moved = 0;
 var added = 0;
 
-const client = mqtt.connect('wss://10.0.2.208:1883');
+  // Your web app's Firebase configuration
+  const firebaseConfig = {
+    apiKey: "AIzaSyBgo3-86QIG1g9TaozIytTER6Lu2hoVYt0",
+    authDomain: "mqtt-integration-26722.firebaseapp.com",
+    databaseURL: "https://mqtt-integration-26722-default-rtdb.firebaseio.com",
+    projectId: "mqtt-integration-26722",
+    storageBucket: "mqtt-integration-26722.appspot.com",
+    messagingSenderId: "578776239858",
+    appId: "1:578776239858:web:428312b2f7b95d72aa4a6b"
+  };
+  
+  // Initialize Firebase
+  const app = initializeApp(firebaseConfig);
 
+  // Initialize Realtime Database and get a reference to the service
+const database = getDatabase(app);
 
 // ----------------------------------------------------------------------
 
 export default function DashboardApp() {
-
+  const [name, setname] = React.useState('');
   const [number, setnumber] = React.useState(0);
   const [Radius, setRadius] = React.useState(0);
   const [Rotate, setRotate] = React.useState(0);
@@ -68,6 +85,15 @@ export default function DashboardApp() {
   const [heart, setheart] = React.useState(1);
   const [bc, setbc] = React.useState(1);
   const [star, setstar] = React.useState(1);
+
+
+  const navigate = useNavigate();
+
+  const navigateToLogin = () => {
+    // 👇️ navigate to /contacts
+    navigate('/login');
+  };
+
   
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -329,6 +355,10 @@ export default function DashboardApp() {
     setManualTilt([stick.x, stick.y]);
   };
 
+  const name_change = (_event) => {
+    setname(_event.target.value);
+  };
+
   const polygon0 = (_event, newValue) => {
     setnumber(newValue);
     model_config[curr]['nos'] = newValue;
@@ -452,8 +482,11 @@ export default function DashboardApp() {
       units: makerjs.unitType.Millimeter,
       strokeWidth: '0.25mm',
     };
-    client.publish("Eckerd", makerjs.exporter.toSVGPathData(model3).toString());
-    console.log(makerjs.exporter.toSVGPathData(model3));
+    const db = getDatabase();
+    set(ref(db, 'submitions/'+name), {
+    'path': makerjs.exporter.toSVGPathData(model3).toString(),
+    });
+    
     const output = makerjs.exporter.toSVG(model, options)
     const blob = new Blob([output], { type: 'text/plain;charset=utf-8' })
     //FileSaver.saveAs(blob, 'outline.svg')
@@ -483,7 +516,7 @@ export default function DashboardApp() {
             '& .simplebar-content': { height: 1, display: 'flex', flexDirection: 'column'},
           }}
         >
-          <Box sx={{ px: 2.5, py: 3}}>
+          <Box sx={{ px: 2.5, py: 3}} onClick={navigateToLogin}>
             <Logo />
           </Box>
 
@@ -575,7 +608,8 @@ export default function DashboardApp() {
               <Card>
                 <Box sx={{ px: 3, pb: 1 }} dir="ltr">
                 <BluePrint />
-                  <Button className="ui primary button" sx={{ mt: 1 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Submit</Button>
+                <TextField id="outlined-basic" label="Name" variant="outlined" size="small" value={name} onChange={name_change} sx={{mt: 1, mr: 1}}/>
+                  <Button className="ui primary button" sx={{ mt: 1.25 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Submit</Button>
                 </Box>
               </Card>
             </Grid>
