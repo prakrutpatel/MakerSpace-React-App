@@ -2,7 +2,8 @@
 import * as React from 'react';
 import Slider from '@mui/material/Slider';
 import * as makerjs from "makerjs";
-import Heart from './Heart'
+import Heart from './Heart';
+import logo from './Eckerd_logo.png';
 import Blueprint from "react-blueprint-svg";
 import { Joystick } from 'react-joystick-component';
 import { styled } from '@mui/material/styles';
@@ -94,6 +95,11 @@ export default function DashboardApp() {
     navigate('/login');
   };
 
+  const ShowImg = () => {
+    return (
+      <img source={logo} width="450" height="149" alt="" style={{position: "absolute", bottom: 0, right: 0}}/>
+    );
+  };
   
 
   const [anchorEl, setAnchorEl] = React.useState(null);
@@ -899,9 +905,9 @@ export default function DashboardApp() {
                 </Box>
               </Card>
             </Grid> : null}
-
-          </Grid>
+          </Grid>  
         </Container>
+        <ShowImg/>
       </Page>
     </Box>
   );
