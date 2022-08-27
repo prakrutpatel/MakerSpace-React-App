@@ -49,7 +49,7 @@ const Protect = ({
   }
 
   React.useEffect(() => {
-    ;(async function getFingerprint() {
+    (async function getFingerprint() {
       const fpi = await FingerprintJS.load()
       const result = await fpi.get()
       let d
