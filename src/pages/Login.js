@@ -4,6 +4,7 @@ import React, {useEffect} from 'react'
 import { styled } from '@mui/material/styles';
 import { Card, Container, Typography } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
+import logo from '../logo/Eckerd_logo.png';
 import FormGroup from '@mui/material/FormGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import FormControl from '@mui/material/FormControl';
@@ -122,10 +123,18 @@ export default function Login() {
         />
   );
   });
+
+  const ShowImg = () => {
+    return (
+    <img src={logo} width="450" height="149" alt="" style={{position: "absolute", bottom: 0, right: 0}}/>
+    );
+  };
+
   return (
     <Protect sha512='EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF'
       blur={false}
       >
+        <ShowImg/>
     <Page title="Login">
       <RootStyle>
         <HeaderStyle>
