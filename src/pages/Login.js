@@ -2,7 +2,7 @@
 // @mui
 import React, {useEffect} from 'react'
 import { styled } from '@mui/material/styles';
-import { Card, Container, Typography } from '@mui/material';
+import { Card, Container, Typography, Button } from '@mui/material';
 import Checkbox from '@mui/material/Checkbox';
 import logo from '../logo/Eckerd_logo.png';
 import FormGroup from '@mui/material/FormGroup';
@@ -17,7 +17,6 @@ import useResponsive from '../hooks/useResponsive';
 // components
 import Page from '../components/Page';
 import Logo from '../components/Logo';
-import { render } from 'react-dom';
 // sections
 
   // Your web app's Firebase configuration
@@ -156,7 +155,7 @@ export default function Login() {
               Models submitted
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Select models to export.</Typography>
+            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Select upto 6 models to export.</Typography>
             <FormControl component="fieldset">
             <FormGroup aria-label="position" column='true'>
             <ListItems/>
