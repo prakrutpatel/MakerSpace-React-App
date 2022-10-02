@@ -16,6 +16,7 @@ import TextField from '@mui/material/TextField';
 import { initializeApp } from 'firebase/app';
 import { getDatabase, ref, set } from "firebase/database";
 import {Link, useNavigate} from 'react-router-dom';
+import FileSaver from 'file-saver';
 // components
 import Logo from '../components/Logo';
 import Scrollbar from '../components/Scrollbar';
@@ -488,14 +489,15 @@ export default function DashboardApp() {
       units: makerjs.unitType.Millimeter,
       strokeWidth: '0.25mm',
     };
-    const db = getDatabase();
-    set(ref(db, 'submitions/'+name), {
-    'path': makerjs.exporter.toSVGPathData(model3).toString(),
-    });
-    
-    const output = makerjs.exporter.toSVG(model, options)
-    const blob = new Blob([output], { type: 'text/plain;charset=utf-8' })
-    //FileSaver.saveAs(blob, 'outline.svg')
+    //var model1 = makerjs.exporter.toSVGPathData(model3, options);
+    //const db = getDatabase();
+    //set(ref(db, 'submitions/'+name), {
+    //'path': model1.toString(),
+    //});
+    delete model3["models"]["Path 1"];
+    const output = makerjs.exporter.toSVG(model3, options);
+    const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
+    FileSaver.saveAs(blob, name+'.svg');
   }
 
   const refreshPage = () => {
@@ -617,7 +619,7 @@ export default function DashboardApp() {
                 <Box sx={{ px: 3, pb: 1 }} dir="ltr">
                 <BluePrint />
                 <TextField id="outlined-basic" label="Name" variant="outlined" size="small" value={name} onChange={name_change} sx={{mt: 1, mr: 1}}/>
-                  <Button className="ui primary button" sx={{ mt: 1.25 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Submit</Button>
+                  <Button className="ui primary button" sx={{ mt: 1.25 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Download</Button>
                 </Box>
               </Card>
             </Grid>
