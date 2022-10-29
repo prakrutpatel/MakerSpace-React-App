@@ -483,21 +483,41 @@ export default function DashboardApp() {
     model3['models'][curr] = makerjs.model.move(makerjs.model.rotate(new Heart(model_config[curr]['radius'], model_config[curr]['angle']), newValue),[model3['models'][curr].origin[0], model3['models'][curr].origin[1]] );
   };
 
-  const saveSvg = (model) => {
+  const submitSVG = (model) => {
     const options = {
       accuracy: 0.000001,
       units: makerjs.unitType.Millimeter,
       strokeWidth: '0.25mm',
     };
-    //var model1 = makerjs.exporter.toSVGPathData(model3, options);
-    //const db = getDatabase();
-    //set(ref(db, 'submitions/'+name), {
-    //'path': model1.toString(),
-    //});
+    delete model3["models"]["Path 1"];
+    var model1 = makerjs.exporter.toSVGPathData(model3, options);
+    const db = getDatabase();
+    set(ref(db, 'submitions/'+name), {
+    'path': model1.toString(),
+    }).then(() => {
+      setTimeout(function(){
+      }, 3000); 
+      refreshPage();
+    })
+    .catch((error) => {
+      console.log(error)
+    });;
+    //delete model3["models"]["Path 1"];
+    //const output = makerjs.exporter.toSVG(model3, options);
+    //const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
+    //FileSaver.saveAs(blob, name+'.svg');
+  }
+  const downloadSVG = (model) => {
+    const options = {
+      accuracy: 0.000001,
+      units: makerjs.unitType.Millimeter,
+      strokeWidth: '0.25mm',
+    };
     delete model3["models"]["Path 1"];
     const output = makerjs.exporter.toSVG(model3, options);
     const blob = new Blob([output], { type: 'text/plain;charset=utf-8' });
     FileSaver.saveAs(blob, name+'.svg');
+    refreshPage();
   }
 
   const refreshPage = () => {
@@ -508,7 +528,6 @@ export default function DashboardApp() {
 
   return (
     <>
-    <ShowImg/>
     <Box sx={{
       display: 'grid',
       gridTemplateColumns: 'repeat(19, 1fr)',
@@ -619,7 +638,8 @@ export default function DashboardApp() {
                 <Box sx={{ px: 3, pb: 1 }} dir="ltr">
                 <BluePrint />
                 <TextField id="outlined-basic" label="Name" variant="outlined" size="small" value={name} onChange={name_change} sx={{mt: 1, mr: 1}}/>
-                  <Button className="ui primary button" sx={{ mt: 1.25 }} variant="outlined" onClick={(e) => saveSvg(model3)}>Download</Button>
+                  <Button className="ui primary button" sx={{ mt: 1.25 }} variant="outlined" onClick={(e) => submitSVG(model3)}>Submit</Button>
+                  <Button className="ui primary button" sx={{ mt: 1.25, ml: 1.25 }} variant="outlined" onClick={(e) => downloadSVG(model3)}>Download</Button>
                 </Box>
               </Card>
             </Grid>

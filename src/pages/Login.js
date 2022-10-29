@@ -39,11 +39,9 @@ const database = getDatabase(app);
 var list = {
 };
 
-var pathData = "M 14.676 0 L 2.8152 0 L 2.8152 14.676 L 0 14.676 L 0 28.7556 L 2.8152 28.7556 L 2.8152 42.8364 L 0 42.8364 L 0 56.916 L 2.8152 56.916 L 2.8152 71.592 L 14.676 71.592 L 14.676 68.7768 L 28.7556 68.7768 L 28.7556 71.592 L 42.8364 71.592 L 42.8364 68.7768 L 56.916 68.7768 L 56.916 71.592 L 68.7768 71.592 L 68.7768 56.916 L 71.592 56.916 L 71.592 42.8364 L 68.7768 42.8364 L 68.7768 28.7556 L 71.592 28.7556 L 71.592 14.676 L 68.7768 14.676 L 68.7768 0 L 56.916 0 L 56.916 2.8152 L 42.8364 2.8152 L 42.8364 0 L 28.7556 0 L 28.7556 2.8152 L 14.676 2.8152 L 14.676 0 Z"
-
 let combined_model = {
   models: {
-    "Path 1": makerjs.model.center(makerjs.importer.fromSVGPathData(pathData)),
+
   }
 };
 
@@ -54,6 +52,7 @@ const RootStyle = styled('div')(({ theme }) => ({
   },
 }));
 
+var num = 0;
 const HeaderStyle = styled('header')(({ theme }) => ({
   top: 0,
   zIndex: 9,
@@ -89,7 +88,7 @@ const ContentStyle = styled('div')(({ theme }) => ({
   padding: theme.spacing(12, 0),
 }));
 
-const saveSvg = (model) => {
+const saveSvg = () => {
   const options = {
     accuracy: 0.000001,
     units: makerjs.unitType.Millimeter,
@@ -127,14 +126,16 @@ export default function Login() {
 
   const changed = (_event) => {
     if (_event.target.checked === true){
-      console.log(list[_event.target.value]);
-      pathData = list[_event.target.value]['path'];
-      combined_model["model"][_event.target.value] = makerjs.model.center(makerjs.importer.fromSVGPathData(pathData));
+      var pathData = list[_event.target.value]['path'];
+      var x = num%2 === 0 ? (num/2*73) : ((num-1)/2*73);
+      var y = num%2 === 0 ? 0 : -73
+      combined_model.models[_event.target.value] = makerjs.model.move(makerjs.model.center(makerjs.importer.fromSVGPathData(pathData)), [x, y]);
+      num= Object.keys(combined_model.models).length;
     }
     else {
       delete combined_model["model"][_event.target.value];
+      num= Object.keys(combined_model.models).length;
     }
-    console.log(combined_model);
   };
 
   const ListItems = () => render_list.map((name) => {
@@ -155,7 +156,7 @@ export default function Login() {
   };
 
   return (
-    <Protect sha512='EE26B0DD4AF7E749AA1A8EE3C10AE9923F618980772E473F8819A5D4940E0DB27AC185F8A0E1D5F84F88BC887FD67B143732C304CC5FA9AD8E6F57F50028A8FF'
+    <Protect sha512='9B22A5A3B3F9A590FB4601455F0E0A74D41FE0F2187B554396392599C1DF46A5604408291B9F83AD2E6AE588C60260B16F89B6E5A4FC3475ED2358B1755D44D5'
       blur={false}
       >
         <ShowImg/>
@@ -195,7 +196,7 @@ export default function Login() {
               Models submitted
             </Typography>
 
-            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Select upto 6 models to export.</Typography>
+            <Typography sx={{ color: 'text.secondary', mb: 5 }}>Select models to export.</Typography>
             <FormControl component="fieldset">
             <FormGroup aria-label="position" column='true'>
             <ListItems/>
